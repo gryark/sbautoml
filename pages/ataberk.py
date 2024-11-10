@@ -370,7 +370,7 @@ with tab1:
     
     epochs_1 = st.slider("Epoch Sayısı", min_value=1, max_value=100, step=1)
     batch_size_1 = st.selectbox("Batch Size", [1, 2, 4, 8, 16, 32, 64, 128, 256], key="batch_size_tabular_1")
-    learning_rate_1 = st.number_input("Learning Rate", value=0.001)
+    learning_rate_1 = st.number_input("Learning Rate", value=0.001, key="learning_rate_2")
 
     if st.button("Eğit"):
         # Here you'd call the image classification training function (not implemented in this part)
