@@ -52,10 +52,64 @@ def get_model(model_name, num_classes, pretrained=True):
     elif model_name == 'ResNet-50':
         model = models.resnet50(pretrained=pretrained)
         model.fc = nn.Linear(model.fc.in_features, num_classes)
-    # Add other models similarly...
-
+    elif model_name == 'ResNet-101':
+        model = models.resnet101(pretrained=pretrained)
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+    elif model_name == 'EfficientNet-B0':
+        model = models.efficientnet_b0(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    elif model_name == 'EfficientNet-B1':
+        model = models.efficientnet_b1(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    elif model_name == 'EfficientNet-B2':
+        model = models.efficientnet_b2(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    elif model_name == 'EfficientNet-B3':
+        model = models.efficientnet_b3(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    elif model_name == 'EfficientNet-B4':
+        model = models.efficientnet_b4(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    elif model_name == 'EfficientNet-B5':
+        model = models.efficientnet_b5(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    elif model_name == 'EfficientNet-B6':
+        model = models.efficientnet_b6(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    elif model_name == 'EfficientNet-B7':
+        model = models.efficientnet_b7(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    elif model_name == 'DenseNet121':
+        model = models.densenet121(pretrained=pretrained)
+        model.classifier = nn.Linear(model.classifier.in_features, num_classes)
+    elif model_name == 'DenseNet161':
+        model = models.densenet161(pretrained=pretrained)
+        model.classifier = nn.Linear(model.classifier.in_features, num_classes)
+    elif model_name == 'DenseNet169':
+        model = models.densenet169(pretrained=pretrained)
+        model.classifier = nn.Linear(model.classifier.in_features, num_classes)
+    elif model_name == 'DenseNet201':
+        model = models.densenet201(pretrained=pretrained)
+        model.classifier = nn.Linear(model.classifier.in_features, num_classes)
+    elif model_name == 'MobileNetV1':
+        model = models.mobilenet_v2(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    elif model_name == 'MobileNetV2':
+        model = models.mobilenet_v3_small(pretrained=pretrained)  # MobileNet V2 as MobileNetV3 Small
+        model.classifier[3] = nn.Linear(model.classifier[3].in_features, num_classes)
+    elif model_name == 'MobileNetV3':
+        model = models.mobilenet_v3_large(pretrained=pretrained)
+        model.classifier[3] = nn.Linear(model.classifier[3].in_features, num_classes)
+    elif model_name == 'VGG16':
+        model = models.vgg16(pretrained=pretrained)
+        model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
+    elif model_name == 'VGG19':
+        model = models.vgg19(pretrained=pretrained)
+        model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
     model = model.to(device)
     return model
+    # Add other models similarly...
+
 
 # Optimizer seçimi
 def get_optimizer(optimizer_name, model, learning_rate):
@@ -65,19 +119,41 @@ def get_optimizer(optimizer_name, model, learning_rate):
         return optim.Adam(model.parameters(), lr=learning_rate)
     elif optimizer_name == 'AdamW':
         return optim.AdamW(model.parameters(), lr=learning_rate)
-    # Add other optimizers...
+    elif optimizer_name == 'RMSprop':
+        return optim.RMSprop(model.parameters(), lr=learning_rate)
+    elif optimizer_name == 'Adagrad':
+        return optim.Adagrad(model.parameters(), lr=learning_rate)
+    elif optimizer_name == 'Adadelta':
+        return optim.Adadelta(model.parameters(), lr=learning_rate)
 
 # Loss fonksiyonu seçimi
 def get_loss_function(loss_name):
     if loss_name == 'Cross Entropy Loss':
         return nn.CrossEntropyLoss()
+    elif loss_name == 'Binary Cross Entropy Loss':
+        return nn.BCELoss()
+    elif loss_name == 'Binary Cross Entropy with Logits Loss':
+        return nn.BCEWithLogitsLoss()
+    elif loss_name == 'Mean Squared Error Loss':
+        return nn.MSELoss()
+    elif loss_name == 'Mean Absolute Error Loss (L1 Loss)':
+        return nn.L1Loss()
+    elif loss_name == 'Kullback-Leibler Divergence Loss':
+        return nn.KLDivLoss()
+    elif loss_name == 'Smooth L1 Loss (Huber Loss)':
+        return nn.SmoothL1Loss()
     # Add other loss functions...
 
 # Eğitim fonksiyonu
 def train_model(data_dir, model_name, optimizer_name, loss_name, epochs, batch_size, learning_rate):
+    print("********", data_dir)
+    st.text(data_dir)
+    st.text(os.path.join(data_dir))
     data_transforms = get_data_transforms()
     image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x), data_transforms[x])
                       for x in ['train', 'val']}
+    print("********", image_datasets)
+    st.text(image_datasets)
     dataloaders = {x: DataLoader(image_datasets[x], batch_size=batch_size, shuffle=True)
                    for x in ['train', 'val']}
     
@@ -153,8 +229,10 @@ def train_model(data_dir, model_name, optimizer_name, loss_name, epochs, batch_s
 
 # Test fonksiyonu
 def test_model(model, data_dir, batch_size, num_examples=8):
+    print(data_dir)
     data_transforms = get_data_transforms()
     image_datasets = datasets.ImageFolder(os.path.join(data_dir, 'test'), data_transforms['test'])
+    print(image_datasets)
     dataloader = DataLoader(image_datasets, batch_size=batch_size, shuffle=False)
 
     all_labels = []
@@ -271,14 +349,19 @@ def tabular_classification_interface(data_path, model_type, target_column, batch
 
 # Streamlit interface
 
+def gradio_interface(data_dir, model_name, optimizer_name, loss_name, epochs, batch_size, learning_rate):
+    batch_size = int(batch_size)
+    model, metrics_output, loss_plot = train_model(data_dir, model_name, optimizer_name, loss_name, epochs, batch_size, learning_rate)
+    test_results, cm_image, example_outputs = test_model(model, data_dir, batch_size)
 
+    return metrics_output, test_results, cm_image, loss_plot, example_outputs
 # Tabs for different functionalities
 tab1, tab2 = st.tabs(["Image Classification", "Tabular Classification"])
 with tab1:
     st.subheader("Image Classification")
 
     # Dataset input
-    data_dir = st.text_input("Dataset Yolunu Girin")
+    data_dir = st.text_input("Dataset Yolunu Girin (Datasets/brain_data/)")
     
     # Model, optimizer, loss function selection
     model_name = st.selectbox("Model Seçimi", ["ResNet-18", "ResNet-50", "ResNet-101", "EfficientNet-B0", "EfficientNet-B1", "EfficientNet-B2", "EfficientNet-B3", "EfficientNet-B4", "EfficientNet-B5", "EfficientNet-B6", "EfficientNet-B7", "DenseNet121", "DenseNet161", "DenseNet169", "DenseNet201", "MobileNetV1", "MobileNetV2", "MobileNetV3", "VGG16", "VGG19"])
@@ -298,12 +381,15 @@ with tab1:
         cm_image = "path_to_confusion_matrix_image.png"  # Replace with actual image path
         loss_plot = "path_to_loss_plot.png"  # Replace with actual plot image
         example_outputs = ["example1.png", "example2.png"]  # Replace with actual outputs
-        
+
+        metrics_output, test_results, cm_image, loss_plot, example_outputs=gradio_interface(data_dir, model_name, optimizer_name, loss_name, epochs_1, batch_size_1, learning_rate_1)
         st.text(metrics_output)
         st.text(test_results)
         st.image(cm_image)
         st.image(loss_plot)
         st.image(example_outputs[0])  # Display the first example output
+
+
 
 
 with tab2 :
