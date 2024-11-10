@@ -58,7 +58,7 @@ def display_linear_regression():
 
     #train_file = st.text_input("Train set", placeholder=".csv, .txt only")
     #test_file = st.text_input("Test set", placeholder=".csv, .txt only")
-    datasets_folder = 'datasets'
+    datasets_folder = 'Datasets'
 
     # List all files in the datasets folder (only CSV and Excel files)
     dataset_files = [f for f in os.listdir(datasets_folder) if f.endswith(('.csv', '.xlsx'))]
