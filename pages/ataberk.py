@@ -23,6 +23,7 @@ import time
 from tqdm import tqdm
 import copy
 import numpy as np
+from streamlit_extras.dataframe_explorer import dataframe_explorer
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -269,7 +270,7 @@ def tabular_classification_interface(data_path, model_type, target_column, batch
     return test_metrics, cm_image
 
 # Streamlit interface
-st.markdown("Veri yolu, model seçimi, optimizer ve loss fonksiyonu seçimi ile model eğitimi ve test işlemleri gerçekleştirilir.")
+
 
 # Tabs for different functionalities
 tab1, tab2 = st.tabs(["Image Classification", "Tabular Classification"])
@@ -309,8 +310,30 @@ with tab2 :
     st.subheader("Tabular Classification")
 
     # Dataset input for tabular data
-    data_path = st.text_input("Tabular Veri Dosya Yolu")
+    #data_path = st.text_input("Tabular Veri Dosya Yolu")
+    datasets_folder = 'Datasets'
 
+    # List all files in the datasets folder (only CSV and Excel files)
+    dataset_files = [f for f in os.listdir(datasets_folder) if f.endswith(('.csv', '.xlsx'))]
+
+    dataset_files.insert(0, "Bir veri seti seçiniz")
+    # Create a selectbox for choosing a dataset
+    selected_file = st.selectbox('Veri setleri:', dataset_files)
+    file_path=None
+    # If a dataset is selected, display it
+    if selected_file!="Bir veri seti seçiniz":
+        file_path = os.path.join(datasets_folder, selected_file)
+        
+        # Load the dataset
+        if selected_file.endswith('.csv'):
+            df = pd.read_csv(file_path)
+        elif selected_file.endswith('.xlsx'):
+            df = pd.read_excel(file_path)
+
+        # Display the dataset in Streamlit
+        st.write(f"### {selected_file}")
+        filtered_df = dataframe_explorer(df) 
+        st.dataframe(filtered_df, use_container_width=True) 
     # Dropdown for model selection
     model_type = st.selectbox("Model Tipi", ["RandomForest", "DecisionTree"])
 
@@ -320,9 +343,9 @@ with tab2 :
         data = pd.read_csv(data_path)
         return list(data.columns)
 
-    if data_path:
-        columns = get_columns(data_path)
-        target_column = st.selectbox("Seçilecek Sütun", columns, key="id")
+    if file_path:
+        columns = get_columns(file_path)
+        target_column = st.selectbox("Seçilecek Hedef Sütun", columns, key="id")
         
         batch_size_tabular_2 = st.selectbox("Batch Size", [1, 2, 4, 8, 16, 32, 64, 128, 256], key="batch_size_tabular_2")
         learning_rate_tabular_2 = st.number_input("Learning Rate", value=0.001, key="test1")
@@ -330,7 +353,7 @@ with tab2 :
         if st.button("Eğit "):
             st.write("Model Eğitiliyor...")
             test_metrics, cm_image = tabular_classification_interface(
-                data_path, model_type, target_column, batch_size_tabular_2, learning_rate_tabular_2
+                file_path, model_type, target_column, batch_size_tabular_2, learning_rate_tabular_2
             )
             
             # Display results for tabular classification

@@ -47,19 +47,19 @@ login_page = st.Page(login, title="Giriş", icon=":material/login:")
 logout_page = st.Page(logout, title="Çıkış", icon=":material/logout:")
 
 
-regression = st.Page("pages/regression.py", title="Regresyon Analizi", icon=":material/bug_report:")
-classification = st.Page("pages/classification.py", title="Sınıflandırma", icon=":material/bug_report:")
-clustering = st.Page("pages/clustering.py", title="Kümeleme Analizi", icon=":material/bug_report:")
-anomaly = st.Page("pages/anomaly.py", title="Anomali Analizi", icon=":material/bug_report:")
-dimension = st.Page("pages/dimension.py", title="Boyut Analizi", icon=":material/bug_report:")
-image_cls = st.Page("pages/ataberk.py", title="Ataberk Analizi", icon=":material/bug_report:")
+regression = st.Page("pages/regression.py", title="Regresyon Analizi", icon=":material/show_chart:")
+classification = st.Page("pages/classification.py", title="Sınıflandırma", icon=":material/workspaces:")
+clustering = st.Page("pages/clustering.py", title="Kümeleme Analizi", icon=":material/group_work:")
+anomaly = st.Page("pages/anomaly.py", title="Anomali Analizi", icon=":material/legend_toggle:")
+dimension = st.Page("pages/dimension.py", title="Boyut Analizi", icon=":material/dataset:")
+image_cls = st.Page("pages/ataberk.py", title="Ataberk Analizi", icon=":material/analytics:")
 
 
 if st.session_state.logged_in:
     pg = st.navigation(
         {
             "Hesap": [logout_page],
-            "Modeller": [regression, classification, clustering,anomaly,dimension, image_cls],
+            "Modeller": [image_cls, regression, classification, clustering,anomaly,dimension],
         }
     )
 else:
