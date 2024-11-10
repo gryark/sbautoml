@@ -1,0 +1,10 @@
+streamlit
+streamlit_extras
+torch
+torchvision
+tqdm
+matplotlib
+seaborn
+pandas
+scikit-learn
+numpy
