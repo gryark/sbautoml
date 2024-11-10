@@ -1,0 +1,63 @@
+body {
+    background-color: #FFFFFF;  /* White background */
+    font-family: 'Roboto', sans-serif;
+    color: #333333;  /* Dark gray text */
+}
+
+/* Header styling */
+.css-1lcb4b3 {
+    background-color: #003A5C;  /* Dark blue for header */
+    color: white;
+}
+
+/* Title and heading styles */
+h1, h2, h3 {
+    color: #003A5C;  /* Dark blue for headings */
+    font-weight: bold;
+}
+
+/* Streamlit button styles */
+.stButton>button {
+    background-color: rgb(37, 171, 185);  /* Updated blue-green button color */
+    color: white;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.stButton>button:hover {
+    background-color: rgb(28, 141, 153);  /* Darker shade for hover effect */
+    color: white;
+}
+
+/* Link styles */
+a {
+    color: #0072B2;  /* Blue links */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00538A;  /* Darker blue on hover */
+    text-decoration: underline;
+}
+
+/* Sidebar styling */
+.css-1d391kg {
+    background-color: #003A5C;  /* Dark blue sidebar */
+    color: white;
+}
+
+.css-1d391kg p {
+    color: white;
+}
+
+/* Adjusting text alignment */
+.block-container {
+    padding: 1rem;
+}
+
+/* Customizing Markdown element */
+.css-ffhzg2 {
+    font-size: 16px;
+}

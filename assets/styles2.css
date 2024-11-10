@@ -1,0 +1,43 @@
+/* styles.css */
+
+/* Set the background color */
+body {
+    background-color: #F0F8FF;  /* Example light background color */
+    color: #333333;  /* Default text color */
+    font-family: 'Arial', sans-serif;  /* Set the font type */
+}
+
+/* Customizing header fonts and colors */
+h1, h2, h3, h4, h5, h6 {
+    color: #0069B9;  /* Dark blue color for headers */
+    font-family: 'Arial', sans-serif;  /* Set font for headers */
+}
+
+/* Modify the color of Streamlit's default text components */
+.stText, .stMarkdown, .stSubheader, .stCode, .stList {
+    color: #333333;  /* Dark text for better readability */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Style the Streamlit buttons */
+.stButton > button {
+    background-color: #0069B9;  /* Blue background for buttons */
+    color: white;  /* White text on buttons */
+    border-radius: 5px;  /* Rounded corners */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+/* Modify Streamlit input fields */
+.stTextInput input, .stTextArea textarea {
+    background-color: #FFFFFF;  /* White background for input fields */
+    color: #333333;  /* Dark text color */
+    border: 1px solid #CCCCCC;  /* Light border for inputs */
+    padding: 8px;
+}
+
+/* Adjust the layout spacing */
+.stApp {
+    margin: 20px;
+    padding: 20px;
+}
